@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { LogInIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { LogInButton } from "@/components/login-button";
 
 export default function LoginPage() {
     return (
@@ -19,10 +18,7 @@ export default function LoginPage() {
                     IA para monitorar suas movimentações, e oferecer insights
                     personalizados, facilitando o controle do seu orçamento.
                 </p>
-                <Button variant="outline">
-                    <LogInIcon className="mr-2" />
-                    Fazer login ou criar conta
-                </Button>
+                <LogInButton />
             </div>
             <div className="relative h-full w-full">
                 <Image
