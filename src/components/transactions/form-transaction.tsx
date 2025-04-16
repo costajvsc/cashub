@@ -1,0 +1,240 @@
+import {
+    TransactionCategory,
+    TransactionPaymentMethod,
+    TransactionType,
+} from "@prisma/client";
+
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "../ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DatePicker } from "../ui/date-picker";
+import { Button } from "../ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../ui/select";
+import { Input } from "../ui/input";
+import { FormatMonetaryValue } from "@/lib/currency";
+import {
+    TRANSACTION_CATEGORY_OPTIONS,
+    TRANSACTION_PAYMENT_METHOD_OPTIONS,
+    TRANSACTION_TYPE_OPTIONS,
+    TransactionSchema,
+    TransactionSchemaType,
+} from "@/schemas/transaction-schema";
+import { CreateTransaction } from "@/actions/transactions/create-transaction";
+import { UpdateTransaction } from "@/actions/transactions/update-transction";
+
+interface FormTransactionProps {
+    defaultValues?: TransactionSchemaType;
+    transactionId?: string;
+    open: boolean;
+    setOpen: (open: boolean) => void;
+}
+
+export function FormTransaction({
+    defaultValues,
+    transactionId,
+    open,
+    setOpen,
+}: FormTransactionProps) {
+    const form = useForm<TransactionSchemaType>({
+        resolver: zodResolver(TransactionSchema),
+        defaultValues: defaultValues ?? {
+            amount: 50,
+            category: TransactionCategory.OTHER,
+            date: new Date(),
+            name: "",
+            paymentMethod: TransactionPaymentMethod.CASH,
+            type: TransactionType.EXPENSE,
+        },
+    });
+
+    const onSubmit = async (data: TransactionSchemaType) => {
+        try {
+            if (!defaultValues) return await CreateTransaction(data);
+
+            if (transactionId !== undefined)
+                return await UpdateTransaction({ ...data, id: transactionId });
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setOpen(false);
+            form.reset();
+        }
+    };
+
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Nome</FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder="Digite o nome..."
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Valor da transação</FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder="R$ 3.000,00"
+                                    type="text"
+                                    {...field}
+                                    value={FormatMonetaryValue(field.value)}
+                                    onChange={(e) => {
+                                        const inputValue =
+                                            e.target.value.replace(
+                                                /[^\d]/g,
+                                                ""
+                                            );
+                                        const numericValue =
+                                            Number(inputValue) / 100;
+                                        field.onChange(numericValue);
+                                    }}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Tipo</FormLabel>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                            >
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a verified email to display" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {TRANSACTION_TYPE_OPTIONS.map((option) => (
+                                        <SelectItem
+                                            key={option.value}
+                                            value={option.value}
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Categoria</FormLabel>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                            >
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecione a categoria..." />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {TRANSACTION_CATEGORY_OPTIONS.map(
+                                        (option) => (
+                                            <SelectItem
+                                                key={option.value}
+                                                value={option.value}
+                                            >
+                                                {option.label}
+                                            </SelectItem>
+                                        )
+                                    )}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="paymentMethod"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Método de pagamento</FormLabel>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                            >
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecione um método de pagamento..." />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {TRANSACTION_PAYMENT_METHOD_OPTIONS.map(
+                                        (option) => (
+                                            <SelectItem
+                                                key={option.value}
+                                                value={option.value}
+                                            >
+                                                {option.label}
+                                            </SelectItem>
+                                        )
+                                    )}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="date"
+                    render={() => (
+                        <FormItem>
+                            <FormLabel>Data</FormLabel>
+                            <DatePicker />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setOpen(!open)}
+                >
+                    Cancelar
+                </Button>
+                <Button type="submit">Adicionar</Button>
+            </form>
+        </Form>
+    );
+}
