@@ -14,7 +14,6 @@ import {
 } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DatePicker } from "../ui/date-picker";
 import { Button } from "../ui/button";
 import {
     Select,
@@ -34,6 +33,11 @@ import {
 } from "@/schemas/transaction-schema";
 import { CreateTransaction } from "@/actions/transactions/create-transaction";
 import { UpdateTransaction } from "@/actions/transactions/update-transction";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
 
 interface FormTransactionProps {
     defaultValues?: TransactionSchemaType;
@@ -48,16 +52,22 @@ export function FormTransaction({
     open,
     setOpen,
 }: FormTransactionProps) {
+    const parsedData = defaultValues
+        ? {
+              ...defaultValues,
+              date: new Date(defaultValues.date),
+          }
+        : {
+              amount: 50,
+              category: TransactionCategory.OTHER,
+              date: new Date(),
+              name: "",
+              paymentMethod: TransactionPaymentMethod.CASH,
+              type: TransactionType.EXPENSE,
+          };
     const form = useForm<TransactionSchemaType>({
         resolver: zodResolver(TransactionSchema),
-        defaultValues: defaultValues ?? {
-            amount: 50,
-            category: TransactionCategory.OTHER,
-            date: new Date(),
-            name: "",
-            paymentMethod: TransactionPaymentMethod.CASH,
-            type: TransactionType.EXPENSE,
-        },
+        defaultValues: parsedData,
     });
 
     const onSubmit = async (data: TransactionSchemaType) => {
@@ -218,10 +228,40 @@ export function FormTransaction({
                 <FormField
                     control={form.control}
                     name="date"
-                    render={() => (
+                    render={({ field }) => (
                         <FormItem>
                             <FormLabel>Data</FormLabel>
-                            <DatePicker />
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <FormControl>
+                                        <Button
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-full pl-3 text-left font-normal",
+                                                !field.value &&
+                                                    "text-muted-foreground"
+                                            )}
+                                        >
+                                            {field.value ? (
+                                                format(field.value, "PPP")
+                                            ) : (
+                                                <span>Selecione a data</span>
+                                            )}
+                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                    </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    className="w-auto p-0"
+                                    align="start"
+                                >
+                                    <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                    />
+                                </PopoverContent>
+                            </Popover>
                             <FormMessage />
                         </FormItem>
                     )}

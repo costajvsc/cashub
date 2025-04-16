@@ -36,6 +36,7 @@ export function TransactionSheet({
                                     amount: Number(transaction.amount),
                                 }
                             }
+                            transactionId={transaction && transaction.id}
                             open={open}
                             setOpen={setOpen}
                         />
