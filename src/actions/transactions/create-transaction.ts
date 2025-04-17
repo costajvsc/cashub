@@ -1,5 +1,6 @@
 "use server";
 
+import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/prisma";
 import {
     TransactionCategory,
@@ -18,12 +19,14 @@ interface CreateTransactionParams {
 }
 
 export async function CreateTransaction(params: CreateTransactionParams) {
-    const userId = "";
+    const user = await getCurrentUser();
+
+    if (!user) throw new Error("Usuário não autenticado");
 
     await db.transaction.create({
         data: {
             ...params,
-            userId,
+            userId: user.id,
         },
     });
 
