@@ -266,14 +266,16 @@ export function FormTransaction({
                         </FormItem>
                     )}
                 />
-                <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setOpen(!open)}
-                >
-                    Cancelar
-                </Button>
-                <Button type="submit">Adicionar</Button>
+                <div className="flex gap-2 w-full justify-end">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setOpen(!open)}
+                    >
+                        Cancelar
+                    </Button>
+                    <Button type="submit">Adicionar</Button>
+                </div>
             </form>
         </Form>
     );
