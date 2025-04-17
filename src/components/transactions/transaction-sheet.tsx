@@ -29,6 +29,9 @@ export function TransactionSheet({
                             : `Editar transação ${transaction.name}`}
                     </SheetTitle>
                     <SheetDescription>
+                        Adicione ou edite uma transação.
+                    </SheetDescription>
+                    <div>
                         <FormTransaction
                             defaultValues={
                                 transaction && {
@@ -40,7 +43,7 @@ export function TransactionSheet({
                             open={open}
                             setOpen={setOpen}
                         />
-                    </SheetDescription>
+                    </div>
                 </SheetHeader>
             </SheetContent>
         </Sheet>
