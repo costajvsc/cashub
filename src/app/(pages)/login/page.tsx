@@ -7,10 +7,17 @@ export default function LoginPage() {
             <div className="mx-auto flex h-full max-w-[550px] flex-col justify-center p-8">
                 <Image
                     src="/logo.svg"
+                    alt="Finance AI"
                     width={173}
                     height={39}
-                    alt="Cashub logo"
-                    className="mb-8"
+                    className="block dark:hidden"
+                />
+                <Image
+                    src="/logo-dark.svg"
+                    alt="Finance AI"
+                    width={173}
+                    height={39}
+                    className="hidden dark:block"
                 />
                 <h1 className="mb-3 text-4xl font-bold">Bem-vindo</h1>
                 <p className="mb-8 text-muted-foreground">

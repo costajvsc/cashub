@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/providers/session-provider";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Navbar } from "@/components/navbar";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -27,7 +27,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="h-full">
+        <html lang="en" className="h-full" suppressHydrationWarning>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
             >
@@ -37,8 +37,8 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <ThemeToggle />
                     <AuthProvider>
+                        <Navbar />
                         <div className="flex h-full flex-col overflow-hidden">
                             {children}
                         </div>
