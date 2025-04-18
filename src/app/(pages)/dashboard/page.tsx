@@ -30,8 +30,8 @@ export default async function DashboardPage(props: {
                     <h1 className="text-2xl font-bold">Dashboard</h1>
                     <TimeSelect />
                 </div>
-                <div className="grid h-ful grid-cols-[2fr,1fr] gap-6 overflow-hidden">
-                    <div className="flex flex-col gap-6 overflow-hidden">
+                <div className="grid h-ful grid-cols-3 gap-6 overflow-hidden flex-1">
+                    <div className="flex flex-col gap-6 overflow-hidden col-span-2">
                         <SummaryCards month={month} {...dashboard} />
                         <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
                             <TransactionsPieChart {...dashboard} />
@@ -42,9 +42,11 @@ export default async function DashboardPage(props: {
                             />
                         </div>
                     </div>
-                    <LastTransactions
-                        lastTransactions={dashboard.lastTransactions}
-                    />
+                    <div className="col-span-1 flex">
+                        <LastTransactions
+                            lastTransactions={dashboard.lastTransactions}
+                        />
+                    </div>
                 </div>
             </div>
         </>

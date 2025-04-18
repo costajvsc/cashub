@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { FormatMonetaryValue } from "@/lib/currency";
@@ -21,7 +21,7 @@ export function LastTransactions({ lastTransactions }: LastTransactionsProps) {
         if (transaction.type === TransactionType.DEPOSIT) {
             return "text-primary";
         }
-        return "text-white";
+        return "text-blue-500";
     };
     const getAmountPrefix = (transaction: Transaction) => {
         if (transaction.type === TransactionType.DEPOSIT) {
@@ -30,8 +30,8 @@ export function LastTransactions({ lastTransactions }: LastTransactionsProps) {
         return "-";
     };
     return (
-        <ScrollArea className="rounded-md border">
-            <CardHeader className="flex-row items-center justify-between">
+        <Card className="rounded-md border flex-1">
+            <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="font-bold">Últimas Transações</CardTitle>
                 <Button
                     variant="outline"
@@ -41,51 +41,55 @@ export function LastTransactions({ lastTransactions }: LastTransactionsProps) {
                     <Link href="/transactions">Ver mais</Link>
                 </Button>
             </CardHeader>
-            <CardContent className="space-y-6">
-                {lastTransactions.map((transaction) => (
-                    <div
-                        key={transaction.id}
-                        className="flex items-center justify-between"
-                    >
-                        <div className="flex items-center gap-3">
-                            <div className="rounded-lg bg-white bg-opacity-[3%] p-3 text-white">
-                                <Image
-                                    src={`/icons/${
-                                        TRANSACTION_PAYMENT_METHOD_ICONS[
-                                            transaction.paymentMethod
-                                        ]
-                                    }`}
-                                    height={20}
-                                    width={20}
-                                    alt="PIX"
-                                />
-                            </div>
-                            <div>
-                                <p className="text-sm font-bold">
-                                    {transaction.name}
-                                </p>
-                                <p className="text-sm text-muted-foreground">
-                                    {new Date(
-                                        transaction.date
-                                    ).toLocaleDateString("pt-BR", {
-                                        day: "2-digit",
-                                        month: "short",
-                                        year: "numeric",
-                                    })}
-                                </p>
-                            </div>
-                        </div>
-                        <p
-                            className={`text-sm font-bold ${getAmountColor(
-                                transaction
-                            )}`}
+            <ScrollArea>
+                <CardContent className="space-y-6">
+                    {lastTransactions.map((transaction) => (
+                        <div
+                            key={transaction.id}
+                            className="flex items-center justify-between"
                         >
-                            {getAmountPrefix(transaction)}
-                            {FormatMonetaryValue(Number(transaction.amount))}
-                        </p>
-                    </div>
-                ))}
-            </CardContent>
-        </ScrollArea>
+                            <div className="flex items-center gap-3">
+                                <div className="rounded-lg bg-white bg-opacity-[3%] p-3 text-white">
+                                    <Image
+                                        src={`/icons/${
+                                            TRANSACTION_PAYMENT_METHOD_ICONS[
+                                                transaction.paymentMethod
+                                            ]
+                                        }`}
+                                        height={20}
+                                        width={20}
+                                        alt="PIX"
+                                    />
+                                </div>
+                                <div>
+                                    <p className="text-sm font-bold">
+                                        {transaction.name}
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {new Date(
+                                            transaction.date
+                                        ).toLocaleDateString("pt-BR", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
+                                    </p>
+                                </div>
+                            </div>
+                            <p
+                                className={`text-sm font-bold ${getAmountColor(
+                                    transaction
+                                )}`}
+                            >
+                                {getAmountPrefix(transaction)}
+                                {FormatMonetaryValue(
+                                    Number(transaction.amount)
+                                )}
+                            </p>
+                        </div>
+                    ))}
+                </CardContent>
+            </ScrollArea>
+        </Card>
     );
 }

@@ -21,7 +21,7 @@ import PercentageItem from "./percentage-item";
 const chartConfig = {
     [TransactionType.INVESTMENT]: {
         label: "Investido",
-        color: "#FFFFFF",
+        color: "#51a2ff",
     },
     [TransactionType.DEPOSIT]: {
         label: "Receita",
@@ -60,7 +60,7 @@ export default function TransactionsPieChart({
         {
             type: TransactionType.INVESTMENT,
             amount: investmentsTotal,
-            fill: "#FFFFFF",
+            fill: "#51a2ff",
         },
     ];
     return (
@@ -106,7 +106,12 @@ export default function TransactionsPieChart({
                         value={typesPercentage[TransactionType.EXPENSE]}
                     />
                     <PercentageItem
-                        icon={<PiggyBankIcon size={16} />}
+                        icon={
+                            <PiggyBankIcon
+                                size={16}
+                                className="text-blue-500"
+                            />
+                        }
                         title="Investido"
                         value={typesPercentage[TransactionType.INVESTMENT]}
                     />
