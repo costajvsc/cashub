@@ -8,6 +8,7 @@ import { ExpensesPerCategory } from "@/components/dashboard/expenses-per-categor
 import TransactionsPieChart from "@/components/dashboard/transactions-pie-chart";
 import { getDashboard } from "@/actions/dashboard";
 import { Navbar } from "@/components/navbar";
+import { TransactionDatePicker } from "@/components/transactions/transaction-date-picker";
 
 export default async function DashboardPage(props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -28,7 +29,10 @@ export default async function DashboardPage(props: {
             <div className="flex h-full flex-col space-y-6 overflow-hidden p-6">
                 <div className="flex justify-between">
                     <h1 className="text-2xl font-bold">Dashboard</h1>
-                    <TimeSelect />
+                    <div className="flex items-center gap-2">
+                        <TransactionDatePicker />
+                        <TimeSelect />
+                    </div>
                 </div>
                 <div className="grid h-ful grid-cols-3 gap-6 overflow-hidden flex-1">
                     <div className="flex flex-col gap-6 overflow-hidden col-span-2">

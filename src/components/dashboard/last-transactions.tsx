@@ -49,7 +49,7 @@ export function LastTransactions({ lastTransactions }: LastTransactionsProps) {
                             className="flex items-center justify-between"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="rounded-lg bg-white bg-opacity-[3%] p-3 text-white">
+                                <div className="rounded-lg bg-muted p-3 text-muted-foreground">
                                     <Image
                                         src={`/icons/${
                                             TRANSACTION_PAYMENT_METHOD_ICONS[
