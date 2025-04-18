@@ -8,8 +8,8 @@ export function Header() {
 
     return (
         <>
-            <div className="flex justify-between items-center pb-8">
-                <h1>Planos de serviço</h1>
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl">Transações</h1>
                 <Button onClick={() => setOpen(true)}>
                     Adicionar transação
                 </Button>

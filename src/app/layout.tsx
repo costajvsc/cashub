@@ -4,7 +4,6 @@ import "./globals.css";
 import { AuthProvider } from "@/components/providers/session-provider";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Navbar } from "@/components/navbar";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -38,7 +37,6 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <AuthProvider>
-                        <Navbar />
                         <div className="flex h-full flex-col overflow-hidden">
                             {children}
                         </div>
