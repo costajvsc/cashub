@@ -9,10 +9,14 @@ import TransactionsPieChart from "@/components/dashboard/transactions-pie-chart"
 import { getDashboard } from "@/actions/dashboard";
 import { Navbar } from "@/components/navbar";
 import { TransactionDatePicker } from "@/components/transactions/transaction-date-picker";
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function DashboardPage(props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+    const user = await getCurrentUser();
+    if (!user) redirect("/login");
+
     const searchParams = await props.searchParams;
     const month = searchParams.month;
 

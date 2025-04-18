@@ -1,7 +1,12 @@
 import Image from "next/image";
 import { LogInButton } from "@/components/login-button";
+import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+    const user = await getCurrentUser();
+    if (user) redirect("/dashboard");
+
     return (
         <div className="grid h-full grid-cols-2">
             <div className="mx-auto flex h-full max-w-[550px] flex-col justify-center p-8">
