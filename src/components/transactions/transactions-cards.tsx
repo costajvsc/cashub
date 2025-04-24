@@ -13,16 +13,22 @@ import {
 } from "@/actions/transactions/get-transactions";
 import { Header } from "./header";
 
-export async function TransactionsCards() {
+interface TransactionCardsParams {
+    from: string;
+    to: string;
+}
+
+export async function TransactionsCards({ from, to }: TransactionCardsParams) {
     const searchParams = {
-        from: "2025-04-01",
-        to: "2025-04-30",
+        from,
+        to,
     };
 
     const totalExpensives = await GetExpensesTotal({ searchParams });
     const totalDeposits = await GetDepositsTotal({ searchParams });
     const totalInvestments = await GetInvestmentsTotal({ searchParams });
     const totalCreditCard = await GetCreditCardTotal({ searchParams });
+
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

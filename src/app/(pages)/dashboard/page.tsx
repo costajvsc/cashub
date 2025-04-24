@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { isMatch } from "date-fns";
+import { endOfMonth, format, isMatch, startOfMonth } from "date-fns";
 
 import { TimeSelect } from "@/components/dashboard/time-select";
 import { SummaryCards } from "@/components/dashboard/summary-cards";
@@ -11,21 +11,31 @@ import { Navbar } from "@/components/navbar";
 import { TransactionDatePicker } from "@/components/transactions/transaction-date-picker";
 import { getCurrentUser } from "@/lib/auth";
 
-export default async function DashboardPage(props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+export default async function DashboardPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ from: string; to: string; month: string }>;
 }) {
     const user = await getCurrentUser();
+    const { month, from, to } = await searchParams;
+
     if (!user) redirect("/login");
+    if (!month && !from && !to) redirect(`?month=${new Date().getMonth() + 1}`);
 
-    const searchParams = await props.searchParams;
-    const month = searchParams.month;
+    const query = { from, to };
 
-    const monthIsInvalid =
-        !month || typeof month !== "string" || !isMatch(month, "MM");
+    if (month && isMatch(month, "MM")) {
+        const defaultDate = new Date(
+            new Date().getFullYear(),
+            Number(month) - 1
+        );
+        query.from = format(startOfMonth(defaultDate), "yyyy-MM-dd");
+        query.to = format(endOfMonth(defaultDate), "yyyy-MM-dd");
+    }
 
-    if (monthIsInvalid) redirect(`?month=${new Date().getMonth() + 1}`);
-
-    const dashboard = JSON.parse(JSON.stringify(await getDashboard(month)));
+    const dashboard = JSON.parse(
+        JSON.stringify(await getDashboard({ from: query.from, to: query.to }))
+    );
 
     return (
         <>

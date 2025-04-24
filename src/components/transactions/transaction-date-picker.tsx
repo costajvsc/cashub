@@ -14,13 +14,15 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { TimeSelect } from "../dashboard/time-select";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Separator } from "../ui/separator";
 
 export function TransactionDatePicker({
     className,
 }: React.HTMLAttributes<HTMLDivElement>) {
     const { push } = useRouter();
+    const pathname = usePathname();
+
     const searchParams = useSearchParams();
 
     const monthParam = searchParams.get("month");
@@ -38,7 +40,7 @@ export function TransactionDatePicker({
     function handleDateRangeChange() {
         if (date?.from && date?.to)
             push(
-                `/transactions?from=${format(
+                `${pathname}?from=${format(
                     date.from,
                     "yyyy-MM-dd"
                 )}&to=${format(date.to, "yyyy-MM-dd")}`

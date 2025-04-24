@@ -8,14 +8,23 @@ interface GetTransactionsParams {
     };
 }
 
-export async function GetTransactions() {
+export async function GetTransactions({
+    searchParams: { from, to },
+}: GetTransactionsParams) {
     const user = await getCurrentUser();
+    const where = {
+        date: {
+            gte: new Date(`${from}T03:00:00.000Z`),
+            lte: new Date(`${to}T03:00:00.000Z`),
+        },
+    };
 
     if (!user) throw new Error("Usuário não autenticado");
 
     const transactions = await db.transaction.findMany({
         where: {
             userId: user.id,
+            ...where,
         },
     });
 

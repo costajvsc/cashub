@@ -3,7 +3,12 @@ import { TransactionType } from "@prisma/client";
 import { TotalExpensePerCategory, TransactionPercentagePerType } from "./types";
 import { getCurrentUser } from "@/lib/auth";
 
-export const getDashboard = async (month: string) => {
+interface GetDashboardParams {
+    from: string;
+    to: string;
+}
+
+export const getDashboard = async ({ from, to }: GetDashboardParams) => {
     const user = await getCurrentUser();
 
     if (!user) throw new Error("Usuário não autenticado");
@@ -11,12 +16,12 @@ export const getDashboard = async (month: string) => {
 
     const where = {
         date: {
-            gte: new Date(`2025-${month}-01`),
-            lt: new Date(`2025-${month}-31`),
+            gte: new Date(`${from}T03:00:00.000Z`),
+            lte: new Date(`${to}T03:00:00.000Z`),
         },
         userId: userId,
     };
-
+    console.log(from, to);
     const depositsTotal = Number(
         (
             await db.transaction.aggregate({
