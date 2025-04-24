@@ -48,10 +48,10 @@ export default async function DashboardPage({
                         <TimeSelect />
                     </div>
                 </div>
-                <div className="grid h-ful grid-cols-1 md:grid-cols-3 gap-6  flex-1">
+                <div className="grid h-ful grid-cols-1 md:grid-cols-3 space-y-6 gap-0 lg:gap-6 lg:space-y-0 flex-1">
                     <div className="flex flex-col gap-6 overflow-hidden col-span-2">
                         <SummaryCards month={month} {...dashboard} />
-                        <div className="grid h-full grid-cols-1 md:grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
+                        <div className="grid h-full grid-cols-1 lg:grid-cols-3 grid-rows-1 lg:gap-6 space-y-4 lg:space-y-0 overflow-hidden">
                             <TransactionsPieChart {...dashboard} />
                             <ExpensesPerCategory
                                 expensesPerCategory={
