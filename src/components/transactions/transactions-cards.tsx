@@ -25,7 +25,7 @@ export async function TransactionsCards() {
     const totalCreditCard = await GetCreditCardTotal({ searchParams });
     return (
         <>
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <TransactionSummaryCard
                     icon={<PiggyBankIcon size={16} className="text-primary" />}
                     title="Saldo"

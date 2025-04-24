@@ -37,9 +37,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <AuthProvider>
-                        <div className="flex h-full flex-col overflow-hidden">
-                            {children}
-                        </div>
+                        <div className="flex h-full flex-col">{children}</div>
                     </AuthProvider>
                     <Toaster />
                 </ThemeProvider>

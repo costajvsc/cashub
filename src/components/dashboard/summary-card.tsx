@@ -29,7 +29,7 @@ export function SummaryCard({
                     {title}
                 </p>
             </CardHeader>
-            <CardContent className="flex justify-between">
+            <CardContent className="flex flex-col md:flex-row gap-4 md:gap-0 justify-between">
                 <p
                     className={`font-bold ${
                         size === "small" ? "text-2xl" : "text-4xl"
