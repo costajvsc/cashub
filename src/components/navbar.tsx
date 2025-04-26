@@ -84,7 +84,7 @@ export function Navbar() {
 
                         <SheetFooter>
                             <SheetClose asChild>
-                                <Button>Fecahar</Button>
+                                <Button>Fechar</Button>
                             </SheetClose>
                         </SheetFooter>
                     </SheetContent>

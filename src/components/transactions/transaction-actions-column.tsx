@@ -62,7 +62,7 @@ export function TransactionActionsColumn({
                         <Edit className="mr-2" /> Editar transação
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setOpenAlertDelete(true)}>
-                        <Trash className="mr-2" /> Deletar transação
+                        <Trash className="mr-2" /> Excluir transação
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
