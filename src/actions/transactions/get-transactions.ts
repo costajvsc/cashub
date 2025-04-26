@@ -12,14 +12,14 @@ export async function GetTransactions({
     searchParams: { from, to },
 }: GetTransactionsParams) {
     const user = await getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const where = {
         date: {
             gte: new Date(`${from}T03:00:00.000Z`),
             lte: new Date(`${to}T03:00:00.000Z`),
         },
     };
-
-    if (!user) throw new Error("Usuário não autenticado");
 
     const transactions = await db.transaction.findMany({
         where: {
@@ -34,11 +34,15 @@ export async function GetTransactions({
 export async function GetDepositsTotal({
     searchParams: { from, to },
 }: GetTransactionsParams) {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const where = {
         date: {
             gte: new Date(`${from}T03:00:00.000Z`),
             lte: new Date(`${to}T03:00:00.000Z`),
         },
+        userId: user.id,
     };
 
     return Number(
@@ -54,11 +58,15 @@ export async function GetDepositsTotal({
 export async function GetInvestmentsTotal({
     searchParams: { from, to },
 }: GetTransactionsParams) {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const where = {
         date: {
             gte: new Date(`${from}T03:00:00.000Z`),
             lte: new Date(`${to}T03:00:00.000Z`),
         },
+        userId: user.id,
     };
 
     return Number(
@@ -74,11 +82,15 @@ export async function GetInvestmentsTotal({
 export async function GetExpensesTotal({
     searchParams: { from, to },
 }: GetTransactionsParams) {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const where = {
         date: {
             gte: new Date(`${from}T03:00:00.000Z`),
             lte: new Date(`${to}T03:00:00.000Z`),
         },
+        userId: user.id,
     };
 
     return Number(
@@ -94,6 +106,9 @@ export async function GetExpensesTotal({
 export async function GetCreditCardTotal({
     searchParams: { from, to },
 }: GetTransactionsParams) {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const where = {
         date: {
             gte: new Date(`${from}T03:00:00.000Z`),
@@ -104,7 +119,11 @@ export async function GetCreditCardTotal({
     return Number(
         (
             await db.transaction.aggregate({
-                where: { ...where, paymentMethod: "CREDIT_CARD" },
+                where: {
+                    ...where,
+                    paymentMethod: "CREDIT_CARD",
+                    userId: user.id,
+                },
                 _sum: { amount: true },
             })
         )?._sum?.amount
