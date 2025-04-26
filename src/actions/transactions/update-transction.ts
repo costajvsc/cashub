@@ -29,4 +29,5 @@ export async function UpdateTransaction(params: UpdateTransactionParams) {
     });
 
     revalidatePath("/transactions");
+    revalidatePath("/dashboard");
 }

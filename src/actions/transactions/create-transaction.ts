@@ -31,4 +31,5 @@ export async function CreateTransaction(params: CreateTransactionParams) {
     });
 
     revalidatePath("/transactions");
+    revalidatePath("/dashboard");
 }
