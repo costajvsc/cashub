@@ -285,7 +285,7 @@ export function FormTransaction({
                     </Button>
                     <Button type="submit">
                         <Save size={16} />
-                        Adicionar
+                        {defaultValues ? "Adicionar" : "Editar"}
                     </Button>
                 </div>
             </form>
