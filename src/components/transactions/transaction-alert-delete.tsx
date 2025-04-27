@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import { PanelTopClose, Trash } from "lucide-react";
 
 import {
@@ -13,6 +12,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { DeleteTransaction } from "@/actions/transactions/delete-transaction";
 import { Transaction } from "@prisma/client";
+import { HandleToast } from "@/lib/toast";
+import { Button } from "../ui/button";
 
 interface TransactionAlertDeleteProps {
     transaction: Transaction;
@@ -28,8 +29,10 @@ export function TransactionAlertDelete({
     async function handleDelete() {
         await DeleteTransaction(transaction.id);
         setOpen(!open);
-        toast("Transação excluído.", {
-            description: `Transação ${transaction.name} foi excluído com sucesso.`,
+        HandleToast({
+            status: "warning",
+            title: "Transação excluída.",
+            description: `Transação ${transaction.name} foi excluída com sucesso.`,
         });
     }
 
@@ -48,15 +51,18 @@ export function TransactionAlertDelete({
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogAction onClick={() => setOpen(!open)}>
+                    <AlertDialogCancel onClick={() => setOpen(!open)}>
                         <PanelTopClose size={16} className="mr-2" /> Fechar
-                    </AlertDialogAction>
-                    <AlertDialogCancel
-                        className="border-primary text-primary hover:bg-primary hover:text-muted"
-                        onClick={handleDelete}
-                    >
-                        <Trash size={16} className="mr-2" /> Excluir
                     </AlertDialogCancel>
+                    <AlertDialogAction asChild>
+                        <Button
+                            variant="destructive"
+                            className="text-white"
+                            onClick={handleDelete}
+                        >
+                            <Trash size={16} className="mr-2" /> Excluir
+                        </Button>
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

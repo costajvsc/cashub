@@ -39,7 +39,7 @@ export default function RootLayout({
                     <AuthProvider>
                         <div className="flex h-full flex-col">{children}</div>
                     </AuthProvider>
-                    <Toaster />
+                    <Toaster richColors />
                 </ThemeProvider>
             </body>
         </html>

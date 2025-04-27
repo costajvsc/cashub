@@ -38,6 +38,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
+import { HandleToast } from "@/lib/toast";
 
 interface FormTransactionProps {
     defaultValues?: TransactionSchemaType;
@@ -81,6 +82,13 @@ export function FormTransaction({
         } finally {
             setOpen(false);
             form.reset();
+
+            const action = defaultValues ? "atualizada" : "criada";
+            HandleToast({
+                status: defaultValues ? "info" : "success",
+                title: `Transação ${action}.`,
+                description: `Transação ${data.name} foi ${action} com sucesso.`,
+            });
         }
     };
 
@@ -92,7 +100,7 @@ export function FormTransaction({
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Nome</FormLabel>
+                            <FormLabel>Nome da transação</FormLabel>
                             <FormControl>
                                 <Input
                                     placeholder="Digite o nome..."
