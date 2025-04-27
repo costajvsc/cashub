@@ -59,10 +59,10 @@ export function TransactionActionsColumn({
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setOpenForm(true)}>
-                        <Edit className="mr-2" /> Editar transação
+                        <Edit /> Editar transação
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setOpenAlertDelete(true)}>
-                        <Trash className="mr-2" /> Excluir transação
+                        <Trash /> Excluir transação
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

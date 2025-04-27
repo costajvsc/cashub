@@ -52,15 +52,16 @@ export function TransactionAlertDelete({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel onClick={() => setOpen(!open)}>
-                        <PanelTopClose size={16} className="mr-2" /> Fechar
+                        <PanelTopClose size={16} /> Fechar
                     </AlertDialogCancel>
                     <AlertDialogAction asChild>
                         <Button
                             variant="destructive"
                             className="text-white"
                             onClick={handleDelete}
+                            size="sm"
                         >
-                            <Trash size={16} className="mr-2" /> Excluir
+                            <Trash size={16} /> Excluir
                         </Button>
                     </AlertDialogAction>
                 </AlertDialogFooter>

@@ -22,14 +22,14 @@ export function TransactionSheet({
     return (
         <Sheet open={open} onOpenChange={() => setOpen(!open)}>
             <SheetContent>
-                <SheetHeader>
+                <SheetHeader className="gap-4">
                     <SheetTitle>
                         {!transaction
                             ? `Adicionar transação`
                             : `Editar transação ${transaction.name}`}
                     </SheetTitle>
                     <SheetDescription>
-                        Adicione ou edite uma transação.
+                        {!transaction ? "Adicione" : "Edite"} uma transação.
                     </SheetDescription>
                     <div>
                         <FormTransaction

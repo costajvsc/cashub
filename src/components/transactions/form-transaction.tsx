@@ -36,7 +36,7 @@ import { UpdateTransaction } from "@/actions/transactions/update-transction";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, PanelTopClose, Save } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { HandleToast } from "@/lib/toast";
 
@@ -63,7 +63,7 @@ export function FormTransaction({
               category: TransactionCategory.OTHER,
               date: new Date(),
               name: "",
-              paymentMethod: TransactionPaymentMethod.CASH,
+              paymentMethod: TransactionPaymentMethod.PIX,
               type: TransactionType.EXPENSE,
           };
     const form = useForm<TransactionSchemaType>({
@@ -94,7 +94,7 @@ export function FormTransaction({
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                     control={form.control}
                     name="name"
@@ -280,9 +280,13 @@ export function FormTransaction({
                         variant="outline"
                         onClick={() => setOpen(!open)}
                     >
+                        <PanelTopClose size={16} />
                         Cancelar
                     </Button>
-                    <Button type="submit">Adicionar</Button>
+                    <Button type="submit">
+                        <Save size={16} />
+                        Adicionar
+                    </Button>
                 </div>
             </form>
         </Form>
